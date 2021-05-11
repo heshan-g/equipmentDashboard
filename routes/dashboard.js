@@ -46,6 +46,7 @@ appRouter.get('/', async (req, res) => {
 
     // Check if API call was successful
     if (!apiCall.success) {
+      // Render the error view
       res.status(500).send('API call failed, please try again :(');
     }
 
@@ -56,11 +57,10 @@ appRouter.get('/', async (req, res) => {
     latestLastRowId = await equipmentList[equipmentList.length - 1].__rowid__;
   } while (latestLastRowId !== currentLastRowId);
 
-  // Filter out the unimportant fields of each equipment
+  // Extract and calculate the important data
   let operationalCount = 0;
   let nonOperationalCount = 0;
   let equipmentTypes = {};
-  // let equipmentTypes = {'Electric metre': 5, 'Gas metre': 3}
 
   equipmentList.map((equipment) => {
     // Count operational and non-operational equipment
@@ -70,6 +70,7 @@ appRouter.get('/', async (req, res) => {
       nonOperationalCount += 1;
     }
 
+    // Count equipment grouped by type
     if (equipment.AssetCategoryID in equipmentTypes) {
       // If asset category ID exists, increment count
       equipmentTypes[equipment.AssetCategoryID] += 1;
@@ -79,21 +80,18 @@ appRouter.get('/', async (req, res) => {
     }
   });
 
+  // Format data for the barchart in dashboard
   let dataPoints = [];
   for (const type in equipmentTypes) {
     dataPoints.push({ y: equipmentTypes[type], label: type });
   }
 
-  // console.log(dashboard);
-  // console.log(operationalCount, nonOperationalCount);
-
+  // Render the dashboard view
   const viewData = {
     dataPoints,
     operationalCount,
     nonOperationalCount,
   };
-
-  // Render the dashboard view
   res.status(200).render('dashboard.ejs', viewData);
 });
 

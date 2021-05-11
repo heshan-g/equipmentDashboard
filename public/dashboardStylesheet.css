@@ -1,0 +1,19 @@
+* {
+  font-family: 'Overpass', sans-serif;
+}
+h1 {
+  font-size: 70px;
+}
+
+button {
+  background-color: blue; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  margin-bottom: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 4px;
+}
