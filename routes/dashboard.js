@@ -46,7 +46,7 @@ appRouter.get('/', async (req, res) => {
 
     // Check if API call was successful
     if (!apiCall.success) {
-      res.send('API call failed, please try again :(');
+      res.status(500).send('API call failed, please try again :(');
     }
 
     // Update the list of equipment
@@ -57,18 +57,30 @@ appRouter.get('/', async (req, res) => {
   } while (latestLastRowId !== currentLastRowId);
 
   // Filter out the unimportant fields of each equipment
-  equipmentList = equipmentList.map((equipment) => {
-    return {
-      AssetID: equipment.AssetID,
-      AssetCategoryID: equipment.AssetCategoryID,
-      OperationalStatus: equipment.OperationalStatus,
-      __rowid__: equipment.__rowid__,
-    };
+  let operationalCount = 0;
+  let nonOperationalCount = 0;
+  let equipmentTypes = {};
+  // let equipmentTypes = {'Electric metre': 5, 'Gas metre': 3}
+
+  equipmentList.map((equipment) => {
+    // Count operational and non-operational equipment
+    if (equipment.OperationalStatus === 'Operational') {
+      operationalCount += 1;
+    } else if (equipment.OperationalStatus === 'Non-Operational') {
+      nonOperationalCount += 1;
+    }
+
+    if (equipment.AssetCategoryID in equipmentTypes) {
+      // If asset category ID exists, increment count
+      equipmentTypes[equipment.AssetCategoryID] += 1;
+    } else {
+      // If asset category ID does not exist, assign 1
+      equipmentTypes[equipment.AssetCategoryID] = 1;
+    }
   });
 
-  let operationalCount, nonOperationalCount;
-
-  console.log(equipmentList.length);
+  console.log(equipmentTypes);
+  console.log(operationalCount, nonOperationalCount);
 
   const viewData = {
     dashboard: [
@@ -78,11 +90,12 @@ appRouter.get('/', async (req, res) => {
     ],
   };
 
-  res.render('dashboard.ejs', viewData);
+  // Render the dashboard view
+  res.status(200).render('dashboard.ejs', viewData);
 });
 
 appRouter.get('*', (req, res) => {
-  res.send('Page not found (error 404)');
+  res.status(404).send('Page not found (error 404)');
 });
 
 module.exports = appRouter;
