@@ -79,15 +79,18 @@ appRouter.get('/', async (req, res) => {
     }
   });
 
-  console.log(equipmentTypes);
-  console.log(operationalCount, nonOperationalCount);
+  let dataPoints = [];
+  for (const type in equipmentTypes) {
+    dataPoints.push({ y: equipmentTypes[type], label: type });
+  }
+
+  // console.log(dashboard);
+  // console.log(operationalCount, nonOperationalCount);
 
   const viewData = {
-    dashboard: [
-      { y: 7, label: 'AHU' },
-      { y: 8, label: 'Boiler' },
-      { y: 6, label: 'Fire alarm panel' },
-    ],
+    dataPoints,
+    operationalCount,
+    nonOperationalCount,
   };
 
   // Render the dashboard view

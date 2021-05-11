@@ -3,13 +3,18 @@
   <head>
     <script>
       window.onload = function () {
-        // var dashboard = '<%= dashboard; %>';
-        const dashboard = [
-          { y: 7, label: 'AHU' },
-          { y: 8, label: 'Boiler' },
-          { y: 6, label: 'Fire alarm panel' },
-        ];
-        console.log(dashboard);
+        var dataPoints = <%-JSON.stringify(dataPoints)%>;
+        var operationalCount = '<%= operationalCount; %>';
+        var nonOperationalCount = '<%= nonOperationalCount; %>';
+
+        console.log(dataPoints);
+
+        // const dashboard = [
+        //   { y: 7, label: 'AHU' },
+        //   { y: 8, label: 'Boiler' },
+        //   { y: 6, label: 'Fire alarm panel' },
+        // ];
+
         var chart = new CanvasJS.Chart('chartContainer', {
           animationEnabled: true,
           theme: 'light2', // "light1", "light2", "dark1", "dark2"
@@ -28,11 +33,7 @@
               showInLegend: false,
               legendMarkerColor: 'white',
               legendText: 'Equipment Type',
-              dataPoints: [
-                { y: 7, label: 'AHU' },
-                { y: 8, label: 'Boiler' },
-                { y: 6, label: 'Fire alarm panel' },
-              ],
+              dataPoints,
             },
           ],
         });
@@ -42,7 +43,7 @@
   </head>
   <body>
     <h1>Equipment Dashboard</h1>
-    <div id="chartContainer" style="height: 370px; width: 50%"></div>
+    <div id="chartContainer" style="height: 370px; width: 100%"></div>
     <script src="../../canvasjs.min.js"></script>
   </body>
 </html>
