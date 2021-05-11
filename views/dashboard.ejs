@@ -42,8 +42,10 @@
   </head>
   <body>
     <h1>Equipment Dashboard 📈</h1>
-    <h2>Operational: <b><%= operationalCount; %></b></h2>
-    <h2>Non-Operational: <b><%= nonOperationalCount; %></b></h2>
+    <h2>Operational: <span class="success"><%= operationalCount; %></span></h2>
+    <h2>
+      Non-Operational: <span class="danger"><%= nonOperationalCount; %></span>
+    </h2>
     <button onclick="location.reload();">Refresh (update) data</button>
     <div id="chartContainer" style="height: 370px; width: 100%"></div>
     <script src="../../canvasjs.min.js"></script>

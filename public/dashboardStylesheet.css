@@ -5,6 +5,14 @@ h1 {
   font-size: 70px;
 }
 
+.success {
+  color: green;
+}
+
+.danger {
+  color: red;
+}
+
 button {
   background-color: blue; /* Green */
   border: none;
