@@ -47,7 +47,11 @@ appRouter.get('/', async (req, res) => {
     // Check if API call was successful
     if (!apiCall.success) {
       // Render the error view
-      res.status(500).send('API call failed, please try again :(');
+      res.status(500).render('error.ejs', {
+        errorTitle: 'Internal server error (500)',
+        errorMessage:
+          "An error occured in the server. Please try again (refresh) or contact administration if the error persits. Error details can be found on the server's console.",
+      });
     }
 
     // Update the list of equipment
@@ -96,7 +100,11 @@ appRouter.get('/', async (req, res) => {
 });
 
 appRouter.get('*', (req, res) => {
-  res.status(404).send('Page not found (error 404)');
+  res.status(404).render('error.ejs', {
+    errorTitle: 'Page not found (404)',
+    errorMessage:
+      'The requested page could not be found. Please check the URL and try again.',
+  });
 });
 
 module.exports = appRouter;
