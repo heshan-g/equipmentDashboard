@@ -1,7 +1,7 @@
 # Equipment Dashboard (iviva)
 
 ## Description
-This application displays a summary of all equipment data provided by a certain API in a dashbaord.
+This application displays a summary of all equipment data provided by a certain API in a dashbaord. [canvasJS](https://canvasjs.com/) was used for the barchart graphics!
 
 ## System requirements
 [Node.js](https://nodejs.org/en/) needs to be installed on the system that will run this application.
